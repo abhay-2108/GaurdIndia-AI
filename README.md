@@ -2,6 +2,8 @@
 
 GuardIndia AI is an advanced, multi-layered real-time security and fraud prevention platform built specifically to protect digital micro-lenders and instant-credit platforms against automated, machine-scaled **Synthetic Identity Fraud**.
 
+![alt text](image.png)
+
 ---
 
 ## 1. The Definitive Problem Statement
