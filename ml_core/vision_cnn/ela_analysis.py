@@ -23,7 +23,7 @@ def analyze_error_level(image_path: str, temp_dir: str = None, quality: int = 95
             - variance: Pixel variance in the difference matrix (indicators of tampering density)
     """
     if temp_dir is None:
-        temp_dir = "/data/temp" if os.environ.get("RENDER") else "data/temp"
+        temp_dir = "data/temp"
     if not os.path.exists(image_path):
         raise FileNotFoundError(f"Original document image not found at path: {image_path}")
         
