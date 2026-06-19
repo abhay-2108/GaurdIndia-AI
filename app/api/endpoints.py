@@ -2,7 +2,7 @@ import os
 import shutil
 import logging
 from datetime import datetime
-from fastapi import APIRouter, Depends, HTTPException, File, UploadFile, Form, BackgroundTasks, status, Response
+from fastapi import APIRouter, Depends, HTTPException, File, UploadFile, Form, BackgroundTasks, status, Response, Request
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 from typing import Optional
@@ -213,18 +213,19 @@ def run_async_copilot_generation(user_id: str):
 
 # --- Endpoint Routers ---
 
-RP_ID = "localhost"
 RP_NAME = "GuardIndia AI"
 
 @router.get("/webauthn/register/options")
-def get_webauthn_registration_options(user_name: str, db: Session = Depends(get_db)):
+def get_webauthn_registration_options(request: Request, user_name: str, db: Session = Depends(get_db)):
+    origin = request.headers.get("origin", "http://localhost:5173")
+    rp_id = origin.split("//")[-1].split(":")[0]
     # Generate a random user ID for the WebAuthn flow (since the user isn't created in DB yet)
     # The true DB user will be created upon onboarding form submission.
     import uuid
     temp_user_id = str(uuid.uuid4())
     
     options = generate_registration_options(
-        rp_id=RP_ID,
+        rp_id=rp_id,
         rp_name=RP_NAME,
         user_id=temp_user_id.encode('utf-8'),
         user_name=user_name,
@@ -247,6 +248,7 @@ def get_webauthn_registration_options(user_name: str, db: Session = Depends(get_
 
 @router.post("/onboard", response_model=schemas.UserOnboardResponse, status_code=status.HTTP_202_ACCEPTED)
 def onboard_user(
+    request: Request,
     response: Response,
     background_tasks: BackgroundTasks,
     full_name: str = Form(...),
@@ -274,11 +276,14 @@ def onboard_user(
             attestation = json.loads(passkey_attestation)
             db_challenge = db.query(models.WebAuthnChallenge).filter(models.WebAuthnChallenge.user_name == full_name).order_by(models.WebAuthnChallenge.created_at.desc()).first()
             if db_challenge:
+                origin = request.headers.get("origin", "http://localhost:5173")
+                rp_id = origin.split("//")[-1].split(":")[0]
+                
                 verification = verify_registration_response(
                     credential=attestation,
                     expected_challenge=db_challenge.challenge.encode('latin-1') if isinstance(db_challenge.challenge, str) else db_challenge.challenge,
-                    expected_rp_id=RP_ID,
-                    expected_origin=["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:8000"],
+                    expected_rp_id=rp_id,
+                    expected_origin=origin,
                 )
                 actual_sim_verified = True
                 webauthn_cred = verification
