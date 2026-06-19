@@ -25,7 +25,10 @@ DEFAULT_THRESHOLDS = {
 }
 
 # Config storage file
-CONFIG_FILE = "data/config/risk_thresholds.json"
+if os.environ.get("RENDER"):
+    CONFIG_FILE = "/data/config/risk_thresholds.json"
+else:
+    CONFIG_FILE = "data/config/risk_thresholds.json"
 
 class RiskThresholdManager:
     """Manages dynamic risk thresholds with A/B testing support"""

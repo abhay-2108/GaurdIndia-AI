@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from PIL import Image
 
-def analyze_error_level(image_path: str, temp_dir: str = "data/temp", quality: int = 95):
+def analyze_error_level(image_path: str, temp_dir: str = None, quality: int = 95):
     """
     Performs Error Level Analysis (ELA) on an uploaded ID document image.
     
@@ -22,6 +22,8 @@ def analyze_error_level(image_path: str, temp_dir: str = "data/temp", quality: i
             - ela_score: Normalized value between 0.0 and 1.0 (mean pixel difference / 255)
             - variance: Pixel variance in the difference matrix (indicators of tampering density)
     """
+    if temp_dir is None:
+        temp_dir = "/data/temp" if os.environ.get("RENDER") else "data/temp"
     if not os.path.exists(image_path):
         raise FileNotFoundError(f"Original document image not found at path: {image_path}")
         

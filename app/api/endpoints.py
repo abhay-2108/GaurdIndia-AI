@@ -287,7 +287,10 @@ def onboard_user(
             actual_sim_verified = False
             
     # Save uploaded file to disk
-    uploads_dir = "data/uploads"
+    if os.environ.get("RENDER"):
+        uploads_dir = "/data/uploads"
+    else:
+        uploads_dir = "data/uploads"
     os.makedirs(uploads_dir, exist_ok=True)
     file_path = os.path.join(uploads_dir, f"{pan_number}_{file.filename}")
     

@@ -4,7 +4,14 @@ from sqlalchemy.orm import sessionmaker
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DB_PATH = os.path.join(BASE_DIR, "data", "guardindia.db")
+
+if os.environ.get("RENDER"):
+    DB_PATH = "/data/guardindia.db"
+    # Ensure directory exists on Render disk before SQLAlchemy connects
+    os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
+else:
+    DB_PATH = os.path.join(BASE_DIR, "data", "guardindia.db")
+
 SQLALCHEMY_DATABASE_URL = f"sqlite:///{DB_PATH}"
 
 engine = create_engine(
