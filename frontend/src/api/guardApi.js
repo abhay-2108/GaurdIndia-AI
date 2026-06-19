@@ -4,7 +4,7 @@
  * API base URL is read from the Vite environment variable VITE_API_URL.
  */
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
+export const API_BASE = import.meta.env.VITE_API_URL || '';
 
 /**
  * Generic fetch wrapper with error handling.

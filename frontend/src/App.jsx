@@ -2,7 +2,7 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import './index.css';
 import { useWebGLFingerprint } from './hooks/useWebGLFingerprint';
 import { useBehavioralTracker } from './hooks/useBehavioralTracker';
-import { onboardUser, getUserStatus, loginUser, submitTransaction, getCopilotCase, refreshCopilotCase, getWebAuthnRegistrationOptions, getAllUsers, getCircuitBreakers, tripCircuitBreaker, resetCircuitBreaker, getBlacklistedDevices, addBlacklistedDevice, removeBlacklistedDevice } from './api/guardApi';
+import { API_BASE, onboardUser, getUserStatus, loginUser, submitTransaction, getCopilotCase, refreshCopilotCase, getWebAuthnRegistrationOptions, getAllUsers, getCircuitBreakers, tripCircuitBreaker, resetCircuitBreaker, getBlacklistedDevices, addBlacklistedDevice, removeBlacklistedDevice } from './api/guardApi';
 import { startRegistration } from '@simplewebauthn/browser';
 import PhaseScoreCard from './components/PhaseScoreCard';
 import RiskBadge from './components/RiskBadge';
@@ -406,7 +406,7 @@ function OnboardView({ deviceId, setGlobalUserId }) {
   const startStreaming = (userId) => {
     setIsStreaming(true);
     setStreamingSummary("");
-    const eventSource = new EventSource(`http://localhost:8000/api/cases/${userId}/copilot/stream`);
+    const eventSource = new EventSource(`${API_BASE}/api/cases/${userId}/copilot/stream`);
     
     eventSource.onmessage = (e) => {
       if (e.data === "[DONE]") {
