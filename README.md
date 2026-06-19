@@ -1,4 +1,7 @@
-# GuardIndia AI
+# GuardIndia AI 🛡️
+
+**Live Demo (Frontend):** [https://gaurdindia-ai.vercel.app/](https://gaurdindia-ai.vercel.app/)  
+**Live API (Backend):** [https://gaurdindia-ai.onrender.com/docs](https://gaurdindia-ai.onrender.com/docs)
 
 GuardIndia AI is an advanced, multi-layered real-time security and fraud prevention platform built specifically to protect digital micro-lenders and instant-credit platforms against automated, machine-scaled **Synthetic Identity Fraud**.
 
