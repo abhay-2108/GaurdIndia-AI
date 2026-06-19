@@ -1,0 +1,355 @@
+/* ============================================================
+   Feature 3: Predictive Fraud Ring Detection - Styles
+============================================================ */
+
+.fraud-ring-detector {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fraud-ring-detector--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  background: linear-gradient(135deg, var(--color-surface-2) 0%, var(--color-surface) 100%);
+}
+
+.fraud-ring-empty {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.fraud-ring-empty__icon {
+  font-size: 48px;
+  line-height: 1;
+}
+
+.fraud-ring-empty__text {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.fraud-ring-empty__subtext {
+  font-size: 13px;
+  color: var(--color-text-3);
+}
+
+/* Header */
+.fraud-ring-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.fraud-ring-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.fraud-ring-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.fraud-ring-sort {
+  padding: 8px 14px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-2);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.fraud-ring-sort:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+.fraud-ring-sort.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: white;
+}
+
+/* Ring List */
+.fraud-ring-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fraud-ring-item {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: all var(--transition-mid);
+  cursor: pointer;
+}
+
+.fraud-ring-item:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+}
+
+.fraud-ring-item.selected {
+  border-color: var(--color-danger);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+/* Ring Card */
+.fraud-ring-card {
+  padding: 16px;
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 16px;
+  background: var(--color-surface);
+  transition: background var(--transition-fast);
+}
+
+.fraud-ring-item:hover .fraud-ring-card {
+  background: var(--color-surface-2);
+}
+
+.fraud-ring-card__icon {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.fraud-ring-card__main {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fraud-ring-card__id {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text);
+  font-family: var(--font-mono);
+}
+
+.fraud-ring-card__type {
+  font-size: 12px;
+  color: var(--color-text-3);
+}
+
+.fraud-ring-card__metrics {
+  display: flex;
+  gap: 24px;
+}
+
+.fraud-ring-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.fraud-ring-metric__label {
+  font-size: 11px;
+  color: var(--color-text-3);
+  font-weight: 500;
+}
+
+.fraud-ring-metric__value {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.fraud-ring-card__badge {
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--color-danger-light);
+  color: var(--color-danger);
+  text-align: center;
+}
+
+/* Ring Details */
+.fraud-ring-details {
+  padding: 20px 16px;
+  background: var(--color-surface-2);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fraud-ring-details__title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+  margin-bottom: 8px;
+  border-bottom: 2px solid var(--color-primary);
+  padding-bottom: 8px;
+}
+
+.fraud-ring-details__section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fraud-ring-details__label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.fraud-ring-details__value {
+  font-size: 13px;
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.fraud-ring-details__value--mono {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  background: var(--color-surface);
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  word-break: break-all;
+  border: 1px solid var(--color-border);
+}
+
+.fraud-ring-details__factors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.fraud-ring-details__factor {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  background: var(--color-info-light);
+  color: var(--color-info);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.fraud-ring-details__actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-border);
+}
+
+.fraud-ring-details__action {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  color: var(--color-text);
+}
+
+.fraud-ring-details__action:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+.fraud-ring-details__action--primary {
+  background: var(--color-danger);
+  color: white;
+  border-color: var(--color-danger);
+}
+
+.fraud-ring-details__action--primary:hover {
+  background: #991b1b;
+  border-color: #991b1b;
+}
+
+.fraud-ring-details__action--secondary {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.fraud-ring-details__action--secondary:hover {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+/* Summary Stats */
+.fraud-ring-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  padding: 16px;
+  background: var(--color-surface-2);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.fraud-ring-summary__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.fraud-ring-summary__label {
+  font-size: 11px;
+  color: var(--color-text-3);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.fraud-ring-summary__value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+@media (max-width: 768px) {
+  .fraud-ring-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .fraud-ring-card {
+    grid-template-columns: auto 1fr;
+  }
+
+  .fraud-ring-card__metrics {
+    display: none;
+  }
+
+  .fraud-ring-card__badge {
+    grid-column: 1 / -1;
+    width: fit-content;
+  }
+}

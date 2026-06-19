@@ -7,18 +7,21 @@ import { startRegistration } from '@simplewebauthn/browser';
 import PhaseScoreCard from './components/PhaseScoreCard';
 import RiskBadge from './components/RiskBadge';
 import RiskRing from './components/RiskRing';
+import RiskDashboardView from './views/RiskDashboardView';
+import AdvancedLiveness from './components/AdvancedLiveness';
 
 /* ──────────────────────────────────────────────────────────
    NAV
 ────────────────────────────────────────────────────────── */
-const VIEWS = ['home', 'onboard', 'login', 'transaction', 'dashboard', 'operations'];
+const VIEWS = ['home', 'risk-dashboard', 'onboard', 'login', 'transaction', 'dashboard', 'operations'];
 const VIEW_LABELS = {
-  home:        'Overview',
-  onboard:     'Applicant Enrollment',
-  login:       'Device Verification',
-  transaction: 'Transaction Security',
-  dashboard:   'Case Audit Directory',
-  operations:  'Operations Console',
+  home:              'Overview',
+  'risk-dashboard':  'Risk Dashboard',
+  onboard:           'Applicant Enrollment',
+  login:             'Device Verification',
+  transaction:       'Transaction Security',
+  dashboard:         'Case Audit Directory',
+  operations:        'Operations Console',
 };
 
 function Nav({ view, setView }) {
@@ -96,6 +99,9 @@ function HomeView({ setView }) {
             <button className="btn btn--primary btn--lg" onClick={() => setView('onboard')}>
               Applicant Enrollment
             </button>
+            <button className="btn btn--secondary btn--lg" onClick={() => setView('risk-dashboard')}>
+              Real-Time Risk Dashboard
+            </button>
             <button className="btn btn--ghost btn--lg" onClick={() => setView('dashboard')}>
               Case Audit Directory
             </button>
@@ -125,39 +131,55 @@ function HomeView({ setView }) {
         {/* Latest Innovations */}
         <div className="section-header text-center" style={{ marginTop: 56, marginBottom: 32 }}>
           <h2>Latest Enterprise Additions</h2>
-          <p>Cutting-edge features implemented to enforce strict, multi-layered identity assurance.</p>
+          <p>Advanced fraud detection features for comprehensive identity verification.</p>
         </div>
         <div className="grid-2" style={{ gap: 24, marginBottom: 56 }}>
           <div className="card card--accent">
             <div style={{ marginBottom: 12 }}>
-              <h4>WebAuthn Device Binding</h4>
+              <h4>✓ Real-Time Risk Dashboard</h4>
             </div>
             <p style={{ fontSize: '0.9rem', color: 'var(--color-text-2)', lineHeight: '1.6' }}>
-              Replaces traditional carrier SIM checks with secure device enrollment. Users bind their onboarding sessions directly to physical hardware using secure enclaves (TouchID, FaceID, or Windows Hello), ensuring logins and transactions happen from authorized devices.
+              Monitor live fraud metrics across all 4 layers. Track fraud detection rates by layer, geographic hotspots, and ML model performance (Isolation Forest, Random Forest) with precision & recall metrics.
             </p>
           </div>
           <div className="card card--accent">
             <div style={{ marginBottom: 12 }}>
-              <h4>Consortium Blacklist</h4>
+              <h4>⚙️ WebAuthn Device Binding</h4>
             </div>
             <p style={{ fontSize: '0.9rem', color: 'var(--color-text-2)', lineHeight: '1.6' }}>
-              A database-backed shared registry tracking WebGL fingerprints and device signatures. If a device has been flagged for fraudulent patterns elsewhere in the banking ecosystem, it is instantly blocked during onboarding before loan processing can occur.
+              Secure device enrollment using TouchID, FaceID, or Windows Hello. Ensures onboarding and transactions happen only from authorized hardware.
             </p>
           </div>
           <div className="card card--accent">
             <div style={{ marginBottom: 12 }}>
-              <h4>AI Analyst Copilot</h4>
+              <h4>🔗 Consortium Blacklist</h4>
             </div>
             <p style={{ fontSize: '0.9rem', color: 'var(--color-text-2)', lineHeight: '1.6' }}>
-              Ingests complex ML data (Jaccard similarity, ELA image validation, Isolation Forest anomaly scores, and LSTM behavioral telemetry) and produces plain, non-technical bulleted threat narratives using LLMs for human audit teams.
+              Shared device fingerprint registry. Instantly blocks WebGL signatures flagged for fraud across the banking ecosystem.
             </p>
           </div>
           <div className="card card--accent">
             <div style={{ marginBottom: 12 }}>
-              <h4>Operations Dashboard</h4>
+              <h4>🤖 AI Analyst Copilot</h4>
             </div>
             <p style={{ fontSize: '0.9rem', color: 'var(--color-text-2)', lineHeight: '1.6' }}>
-              Provides full transparency of model status. Features stateful CLOSED/OPEN/HALF-OPEN circuit breakers on inference layers (Isolation Forest, Random Forest) and Copilot LLM APIs with simulated controls to manage system-wide fail-safes.
+              Converts ML scores into plain-English threat narratives. Helps audit teams make informed decisions with clear, non-technical summaries.
+            </p>
+          </div>
+          <div className="card card--accent">
+            <div style={{ marginBottom: 12 }}>
+              <h4>⚡ Operations Console</h4>
+            </div>
+            <p style={{ fontSize: '0.9rem', color: 'var(--color-text-2)', lineHeight: '1.6' }}>
+              Circuit breaker controls for all inference layers. Automatic fallback to rule-based logic if ML models fail.
+            </p>
+          </div>
+          <div className="card card--accent">
+            <div style={{ marginBottom: 12 }}>
+              <h4>🔍 Fraud Ring Detection</h4>
+            </div>
+            <p style={{ fontSize: '0.9rem', color: 'var(--color-text-2)', lineHeight: '1.6' }}>
+              Identifies coordinated fraud rings by clustering devices and phone patterns. Detects burst attacks and organized bust-out schemes.
             </p>
           </div>
         </div>
@@ -167,12 +189,11 @@ function HomeView({ setView }) {
           <h3 style={{ marginBottom: 16 }}>Platform Architecture</h3>
           <div className="grid-3" style={{ gap: 20 }}>
             {[
-              { title: 'Async Pipeline', desc: 'ELA + graph analysis run in background workers (FastAPI BackgroundTasks) — zero-blocking HTTP responses.' },
-              { title: 'Circuit Breakers', desc: 'Stateful CLOSED/OPEN/HALF-OPEN breakers on ML inference and Gemini API — automatic fallback to rule-based logic.' },
-              { title: 'Rate Limiter', desc: 'Sliding-window throttle (5 req/10s) on WebGL device fingerprints prevents coordinated burst attacks.' },
+              { title: 'Async Pipeline', desc: 'ELA + graph analysis run in background workers — zero-blocking HTTP responses.' },
+              { title: 'Circuit Breakers', desc: 'Stateful CLOSED/OPEN/HALF-OPEN on ML layers — automatic fallback to rule-based logic.' },
+              { title: 'Rate Limiter', desc: 'Sliding-window throttle on WebGL fingerprints prevents coordinated burst attacks.' },
             ].map((f) => (
               <div key={f.title} className="card card--flat" style={{ padding: '16px 20px' }}>
-                {f.icon && <span style={{ fontSize: '1.5rem', display: 'block', marginBottom: 8 }}>{f.icon}</span>}
                 <h5 style={{ marginBottom: 6 }}>{f.title}</h5>
                 <p style={{ fontSize: '0.85rem' }}>{f.desc}</p>
               </div>
@@ -954,8 +975,8 @@ function TransactionView({ globalUserId }) {
               </div>
               <div className="form-group">
                 <label className="form-label" htmlFor="tx-amount">Transaction Amount (INR) <span className="required">*</span></label>
-                <input id="tx-amount" className="form-input" type="number" placeholder="25000"
-                  value={amount} onChange={(e) => setAmount(e.target.value)} min={1} required />
+                <input id="tx-amount" className="form-input" type="number" placeholder="Enter amount (e.g., 25000)"
+                  value={amount} onChange={(e) => setAmount(e.target.value)} min={1} step="1" required />
               </div>
 
               {error && <div className="alert alert--danger"><span className="alert__icon">✕</span><p>{error}</p></div>}
@@ -1016,6 +1037,8 @@ function DashboardView({ globalUserId }) {
   const [error, setError] = useState('');
   const [selectedCase, setSelectedCase] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(12);
 
   const fetchUsers = async () => {
     setLoadingUsers(true);
@@ -1080,6 +1103,16 @@ function DashboardView({ globalUserId }) {
   const rejectedCases = users.filter(u => u.risk_score >= 0.70).length;
   const reviewCases = users.filter(u => u.risk_score >= 0.40 && u.risk_score < 0.70).length;
   const cleanCases = users.filter(u => u.risk_score < 0.40).length;
+
+  // Pagination logic
+  const totalPages = Math.ceil(users.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedUsers = users.slice(startIndex, endIndex);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(Math.max(1, Math.min(page, totalPages)));
+  };
 
   return (
     <div className="container animate-fade-in" style={{ padding: '40px 24px' }}>
@@ -1281,75 +1314,163 @@ function DashboardView({ globalUserId }) {
           <p style={{ fontSize: '0.9rem' }}>Submit a new applicant on the Onboard view to populate the database.</p>
         </div>
       ) : (
-        <div className="users-grid">
-          {users.map((u) => {
-            const riskPct = (u.risk_score * 100).toFixed(0);
-            let scoreColor = 'var(--color-success)';
-            let scoreBg = 'var(--color-success-light)';
-            if (u.risk_score >= 0.70) {
-              scoreColor = 'var(--color-danger)';
-              scoreBg = 'var(--color-danger-light)';
-            } else if (u.risk_score >= 0.40) {
-              scoreColor = 'var(--color-warning)';
-              scoreBg = 'var(--color-warning-light)';
-            }
+        <div>
+          {/* Items Per Page Selector */}
+          <div style={{ marginBottom: 16, display: 'flex', gap: 12, alignItems: 'center' }}>
+            <label style={{ fontSize: '0.9rem', fontWeight: 500 }}>Items per page:</label>
+            <select 
+              value={itemsPerPage}
+              onChange={(e) => {
+                setItemsPerPage(parseInt(e.target.value));
+                setCurrentPage(1);
+              }}
+              style={{ padding: '6px 12px', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)', fontSize: '0.9rem' }}
+            >
+              <option value="6">6</option>
+              <option value="12">12</option>
+              <option value="24">24</option>
+              <option value="50">50</option>
+            </select>
+            <span style={{ marginLeft: 'auto', fontSize: '0.9rem', color: 'var(--color-text-2)' }}>
+              Showing {startIndex + 1} - {Math.min(endIndex, totalCases)} of {totalCases} applicants
+            </span>
+          </div>
 
-            const formattedDate = u.created_at
-              ? new Date(u.created_at).toLocaleDateString('en-IN', {
-                  day: '2-digit',
-                  month: 'short',
-                  year: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })
-              : 'N/A';
+          <div className="users-grid">
+            {paginatedUsers.map((u) => {
+              const riskPct = (u.risk_score * 100).toFixed(0);
+              let scoreColor = 'var(--color-success)';
+              let scoreBg = 'var(--color-success-light)';
+              if (u.risk_score >= 0.70) {
+                scoreColor = 'var(--color-danger)';
+                scoreBg = 'var(--color-danger-light)';
+              } else if (u.risk_score >= 0.40) {
+                scoreColor = 'var(--color-warning)';
+                scoreBg = 'var(--color-warning-light)';
+              }
 
-            return (
-              <div
-                key={u.id}
-                className="user-card animate-fade-in"
-                onClick={() => handleSelectUser(u.id)}
-              >
-                <div className="user-card__header">
-                  <div>
-                    <h4 className="user-card__name">{u.full_name}</h4>
-                    <span className="text-xs text-muted">ID: <code>{u.id.substring(0, 8)}...</code></span>
+              const formattedDate = u.created_at
+                ? new Date(u.created_at).toLocaleDateString('en-IN', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })
+                : 'N/A';
+
+              return (
+                <div
+                  key={u.id}
+                  className="user-card animate-fade-in"
+                  onClick={() => handleSelectUser(u.id)}
+                >
+                  <div className="user-card__header">
+                    <div>
+                      <h4 className="user-card__name">{u.full_name}</h4>
+                      <span className="text-xs text-muted">ID: <code>{u.id.substring(0, 8)}...</code></span>
+                    </div>
+                    <div
+                      style={{
+                        background: scoreBg,
+                        color: scoreColor,
+                        padding: '4px 10px',
+                        borderRadius: '99px',
+                        fontSize: '0.75rem',
+                        fontWeight: 700,
+                      }}
+                    >
+                      {riskPct}% Risk
+                    </div>
+                  </div>
+                  <div className="user-card__meta">
+                    <div><strong>PAN:</strong> <span style={{ fontFamily: 'monospace' }}>{u.pan_number}</span></div>
+                    <div><strong>Mobile:</strong> {u.phone_number}</div>
+                    <div className="user-card__date">Submitted {formattedDate}</div>
                   </div>
                   <div
                     style={{
-                      background: scoreBg,
-                      color: scoreColor,
-                      padding: '4px 10px',
-                      borderRadius: '99px',
-                      fontSize: '0.75rem',
-                      fontWeight: 700,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 6,
+                      fontSize: '0.8125rem',
+                      color: 'var(--color-primary)',
+                      fontWeight: 600,
+                      marginTop: 4,
                     }}
                   >
-                    {riskPct}% Risk
+                    <span>Verify Threat Telemetry</span>
+                    <span>→</span>
                   </div>
                 </div>
-                <div className="user-card__meta">
-                  <div><strong>PAN:</strong> <span style={{ fontFamily: 'monospace' }}>{u.pan_number}</span></div>
-                  <div><strong>Mobile:</strong> {u.phone_number}</div>
-                  <div className="user-card__date">Submitted {formattedDate}</div>
-                </div>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 6,
-                    fontSize: '0.8125rem',
-                    color: 'var(--color-primary)',
-                    fontWeight: 600,
-                    marginTop: 4,
-                  }}
-                >
-                  <span>Verify Threat Telemetry</span>
-                  <span>→</span>
-                </div>
+              );
+            })}
+          </div>
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div style={{ marginTop: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                style={{
+                  padding: '8px 12px',
+                  border: '1px solid var(--color-border)',
+                  background: currentPage === 1 ? 'var(--color-surface-2)' : 'var(--color-surface)',
+                  borderRadius: 'var(--radius-sm)',
+                  cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                  opacity: currentPage === 1 ? 0.5 : 1,
+                  fontWeight: 500,
+                  fontSize: '0.9rem'
+                }}
+              >
+                ← Previous
+              </button>
+
+              {/* Page Numbers */}
+              <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    style={{
+                      padding: '6px 10px',
+                      border: page === currentPage ? '2px solid var(--color-primary)' : '1px solid var(--color-border)',
+                      background: page === currentPage ? 'var(--color-primary-light)' : 'var(--color-surface)',
+                      color: page === currentPage ? 'var(--color-primary)' : 'var(--color-text)',
+                      borderRadius: 'var(--radius-sm)',
+                      cursor: 'pointer',
+                      fontWeight: page === currentPage ? 600 : 400,
+                      fontSize: '0.85rem'
+                    }}
+                  >
+                    {page}
+                  </button>
+                ))}
               </div>
-            );
-          })}
+
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                style={{
+                  padding: '8px 12px',
+                  border: '1px solid var(--color-border)',
+                  background: currentPage === totalPages ? 'var(--color-surface-2)' : 'var(--color-surface)',
+                  borderRadius: 'var(--radius-sm)',
+                  cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                  opacity: currentPage === totalPages ? 0.5 : 1,
+                  fontWeight: 500,
+                  fontSize: '0.9rem'
+                }}
+              >
+                Next →
+              </button>
+
+              <span style={{ marginLeft: 16, fontSize: '0.9rem', color: 'var(--color-text-2)', fontWeight: 500 }}>
+                Page {currentPage} of {totalPages}
+              </span>
+            </div>
+          )}
         </div>
       )}
 
@@ -1683,13 +1804,14 @@ export default function App() {
 
   const renderView = () => {
     switch (view) {
-      case 'home':        return <HomeView setView={setView} />;
-      case 'onboard':     return <OnboardView deviceId={deviceId} setGlobalUserId={setGlobalUserId} />;
-      case 'login':       return <LoginView deviceId={deviceId} globalUserId={globalUserId} />;
-      case 'transaction': return <TransactionView globalUserId={globalUserId} />;
-      case 'dashboard':   return <DashboardView globalUserId={globalUserId} />;
-      case 'operations':  return <OperationsView deviceId={deviceId} />;
-      default:            return <HomeView setView={setView} />;
+      case 'home':               return <HomeView setView={setView} />;
+      case 'onboard':            return <OnboardView deviceId={deviceId} setGlobalUserId={setGlobalUserId} />;
+      case 'login':              return <LoginView deviceId={deviceId} globalUserId={globalUserId} />;
+      case 'transaction':        return <TransactionView globalUserId={globalUserId} />;
+      case 'risk-dashboard':     return <RiskDashboardView />;
+      case 'dashboard':          return <DashboardView globalUserId={globalUserId} />;
+      case 'operations':         return <OperationsView deviceId={deviceId} />;
+      default:                   return <HomeView setView={setView} />;
     }
   };
 

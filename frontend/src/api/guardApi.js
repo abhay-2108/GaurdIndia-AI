@@ -277,3 +277,147 @@ export async function removeBlacklistedDevice(hash) {
 }
 
 
+
+
+// ============================================================
+// FEATURE 1: Real-Time Risk Dashboard Analytics
+// ============================================================
+
+export async function getFraudStatistics(days = 7) {
+  return apiFetch(`/api/analytics/fraud-statistics?days=${days}`);
+}
+
+export async function getGeographicHotspots(days = 7) {
+  return apiFetch(`/api/analytics/geographic-hotspots?days=${days}`);
+}
+
+export async function getDailyTrend(days = 30) {
+  return apiFetch(`/api/analytics/daily-trend?days=${days}`);
+}
+
+export async function getModelPerformance() {
+  return apiFetch(`/api/analytics/model-performance`);
+}
+
+// ============================================================
+// FEATURE 3: Predictive Fraud Ring Detection
+// ============================================================
+
+export async function getFraudRings(minClusterSize = 3) {
+  return apiFetch(`/api/analytics/fraud-rings?min_cluster_size=${minClusterSize}`);
+}
+
+// ============================================================
+// FEATURE 2: Smart Risk Scoring Thresholds
+// ============================================================
+
+export async function getThresholds() {
+  return apiFetch(`/api/config/thresholds`);
+}
+
+export async function updateThreshold(thresholdKey, value) {
+  return apiFetch(`/api/config/thresholds/${thresholdKey}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ value })
+  });
+}
+
+export async function resetThresholds() {
+  return apiFetch(`/api/config/thresholds/reset`, {
+    method: 'POST'
+  });
+}
+
+export async function getAdaptiveThresholds(fraudRate, targetFraudRate = 0.05) {
+  return apiFetch(`/api/config/adaptive-thresholds?fraud_rate=${fraudRate}&target_fraud_rate=${targetFraudRate}`);
+}
+
+export async function getABTests() {
+  return apiFetch(`/api/config/ab-tests`);
+}
+
+export async function createABTest(testName, testConfig, trafficPercentage) {
+  return apiFetch(`/api/config/ab-tests`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 
+      test_name: testName, 
+      test_config: testConfig, 
+      traffic_percentage: trafficPercentage 
+    })
+  });
+}
+
+// ============================================================
+// FEATURE 5: Geolocation & IP Reputation Integration
+// ============================================================
+
+export async function getIPLocation(ipAddress) {
+  return apiFetch(`/api/device/ip-location?ip_address=${ipAddress}`);
+}
+
+export async function checkImpossibleTravel(userId, currentIP) {
+  return apiFetch(`/api/device/impossible-travel-check`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 
+      user_id: userId, 
+      current_ip: currentIP 
+    })
+  });
+}
+
+export async function assessLocationRisk(userId, currentIP) {
+  return apiFetch(`/api/device/location-risk-assessment`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 
+      user_id: userId, 
+      current_ip: currentIP 
+    })
+  });
+}
+
+// ============================================================
+// FEATURE 8: Smart Alert & Escalation System
+// ============================================================
+
+export async function getAlerts(readStatus = null) {
+  const statusParam = readStatus !== null ? `&read_status=${readStatus}` : '';
+  return apiFetch(`/api/alerts?${statusParam}`);
+}
+
+export async function getAlertSummary() {
+  return apiFetch(`/api/alerts/summary`);
+}
+
+export async function markAlertAsRead(alertId) {
+  return apiFetch(`/api/alerts/${alertId}/read`, {
+    method: 'PUT'
+  });
+}
+
+export async function testCreateFraudRingAlert(ringId, linkedAccounts, confidence) {
+  return apiFetch(`/api/alerts/test-fraud-ring`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 
+      ring_id: ringId, 
+      linked_accounts: linkedAccounts, 
+      confidence 
+    })
+  });
+}
+
+export async function testCreateHighRiskAlert(userId, userName, riskScore) {
+  return apiFetch(`/api/alerts/test-high-risk-application`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 
+      user_id: userId, 
+      user_name: userName, 
+      risk_score: riskScore 
+    })
+  });
+}
